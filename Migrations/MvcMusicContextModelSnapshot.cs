@@ -32,6 +32,9 @@ namespace MvcMusic.Migrations
                     b.Property<string>("Performer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
