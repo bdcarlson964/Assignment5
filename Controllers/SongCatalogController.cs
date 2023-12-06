@@ -18,9 +18,9 @@ namespace MvcMusic.Controllers
         {
             _context = context;
         }
-        
-        // GET: genre
-        public async Task<IActionResult> Index(string songsGenre, string performers)
+
+        // GET: SongCatalog
+        public async Task<IActionResult> Index(string songGenre, string songPerformer)
         {
             if (_context.Song == null)
             {
@@ -28,35 +28,37 @@ namespace MvcMusic.Controllers
             }
 
             // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from g in _context.Song
-                                            orderby g.Genre
-                                            select g.Genre;
+            IQueryable<string> genreQuery = from m in _context.Song
+                                            orderby m.Genre
+                                            select m.Genre;
 
-            IQueryable<string> performerQuery = from g in _context.Song
-                                                orderby g.Performer
-                                                select g.Performer;
-            var songs = from g in _context.Song
-                        select g;
+            // Use LINQ to get list of performers.
+            IQueryable<string> performerQuery = from m in _context.Song
+                                            orderby m.Performer
+                                            select m.Performer;
+
+            var songs = from m in _context.Song
+                         select m;
 
 
-            if (!string.IsNullOrEmpty(songsGenre))
+            if (!string.IsNullOrEmpty(songGenre))
             {
-                songs = songs.Where(s => s.Genre == songsGenre);
+                songs = songs.Where(x => x.Genre == songGenre);
             }
 
-            if (!string.IsNullOrEmpty(performers))
+            if (!string.IsNullOrEmpty(songPerformer))
             {
-                songs = songs.Where(p => p.Performer == performers);
+                songs = songs.Where(x => x.Performer == songPerformer);
             }
 
-            var songsGenreVM = new MusicGenreViewModel
+            var songGenreVM = new SongGenreViewModel
             {
                 Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
                 Performers = new SelectList(await performerQuery.Distinct().ToListAsync()),
                 Songs = await songs.ToListAsync()
             };
 
-            return View(songsGenreVM);
+            return View(songGenreVM);
         }
 
 
