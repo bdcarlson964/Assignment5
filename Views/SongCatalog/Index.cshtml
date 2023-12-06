@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MvcMusic.Models.Song>
+
+﻿@model MvcMusic.Models.MusicGenreViewModel
+
 
 @{
     ViewData["Title"] = "Index";
@@ -7,26 +9,44 @@
 <h1>Index</h1>
 
 
+<form asp-controller="SongCatalog" asp-action="Index" method="get">
+    <p>
+
+        <select asp-for="SongGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+
+        Title:
+        <select asp-for="Performer" asp-items="Model.Performers">
+            <option value="">All</option>
+        </select>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+
+                @Html.DisplayNameFor(model => model.Songs![0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Performer)
+                @Html.DisplayNameFor(model => model.Songs![0].Performer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.Songs![0].Genre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Songs![0].Price)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+@foreach (var item in Model.Songs!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
