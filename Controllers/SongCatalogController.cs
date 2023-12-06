@@ -20,9 +20,45 @@ namespace MvcMusic.Controllers
         }
 
         // GET: SongCatalog
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string songGenre, string songPerformer)
         {
-            return View(await _context.Song.ToListAsync());
+            if (_context.Song == null)
+            {
+                return Problem("Entity set 'MvcMusicContext.Song'  is null.");
+            }
+
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Song
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            // Use LINQ to get list of performers.
+            IQueryable<string> performerQuery = from m in _context.Song
+                                            orderby m.Performer
+                                            select m.Performer;
+
+            var songs = from m in _context.Song
+                         select m;
+
+
+            if (!string.IsNullOrEmpty(songGenre))
+            {
+                songs = songs.Where(x => x.Genre == songGenre);
+            }
+
+            if (!string.IsNullOrEmpty(songPerformer))
+            {
+                songs = songs.Where(x => x.Performer == songPerformer);
+            }
+
+            var songGenreVM = new SongGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Performers = new SelectList(await performerQuery.Distinct().ToListAsync()),
+                Songs = await songs.ToListAsync()
+            };
+
+            return View(songGenreVM);
         }
 
         // GET: SongCatalog/Details/5
