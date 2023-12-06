@@ -1,10 +1,13 @@
+
 ﻿@model MvcMusic.Models.MusicGenreViewModel
+
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
 
 <form asp-controller="SongCatalog" asp-action="Index" method="get">
     <p>
@@ -21,10 +24,12 @@
     </p>
 </form>
 
+
 <table class="table">
     <thead>
         <tr>
             <th>
+
                 @Html.DisplayNameFor(model => model.Songs![0].Title)
             </th>
             <th>
@@ -40,6 +45,7 @@
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in Model.Songs!) {
         <tr>
             <td>

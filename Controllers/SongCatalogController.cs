@@ -18,7 +18,7 @@ namespace MvcMusic.Controllers
         {
             _context = context;
         }
-
+        
         // GET: genre
         public async Task<IActionResult> Index(string songsGenre, string performers)
         {
@@ -58,6 +58,7 @@ namespace MvcMusic.Controllers
 
             return View(songsGenreVM);
         }
+
 
         // GET: SongCatalog/Details/5
         public async Task<IActionResult> Details(int? id)
