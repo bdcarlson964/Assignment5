@@ -1,4 +1,5 @@
-﻿@model MvcMusic.Models.SongGenreViewModel
+@model MvcMusic.Models.SongGenreViewModel
+
 
 @{
     ViewData["Title"] = "Index";
@@ -14,6 +15,22 @@
         </select>
 
         Performer: <select asp-for="SongPerformer" asp-items="Model.Performers">
+            <option value="">All</option>
+        </select>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+
+<form asp-controller="SongCatalog" asp-action="Index" method="get">
+    <p>
+
+        <select asp-for="SongGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+
+        Title:
+        <select asp-for="Performer" asp-items="Model.Performers">
             <option value="">All</option>
         </select>
         <input type="submit" value="Filter" />
@@ -40,6 +57,7 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach (var item in Model.Songs!)
         {
             <tr>
